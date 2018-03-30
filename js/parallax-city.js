@@ -3,12 +3,6 @@
 /*jslint plusplus: true */
 /*global $, jQuery, TimelineLite, TimelineMax, TweenMax, TweenLite, Power2, console*/
 
-// images
-// layer000 | jgg-photo | main bg     | 2879x2400
-// layer001 | bldgs-03  | light blue  | 1789x1174
-// layer010 | bldgs-bg  | dark gray   | 2068 × 1456
-// layer050 | clouds-a  | main clouds | 6437 × 3482
-
 // get mouse position, send velocity
 var mouseIsHovering = false, xMousePos, yMousePos;
 
@@ -25,13 +19,16 @@ $("#wrapper").mousemove(function (event) {
     yMousePos = event.pageY;
 });
 
-
 // constructor function: layers
-function MovingLayer(layerId, left, top, depth) {
+function MovingLayer(layerId, left, top, width, depth) {
   this.layerId = layerId;
   this.top = top;
   this.left = left;
-  this.width = $(this.layerId).css('width');
+  if (width === '0'){
+    this.width = $(this.layerId).css('width');
+  } else {
+    this.width = width;
+  }
   this.height = $(this.layerId).css('height');
   this.depth = depth;
 
@@ -122,13 +119,18 @@ MovingLayer.prototype.layerSetup = function () {
   // console.log("layerSetup ran");
 };
 
+// images
+// layer000 | jgg-photo | main bg     | 2879x2400
+// layer001 | bldgs-03  | light blue  | 1789x1174
+// layer010 | bldgs-bg  | dark gray   | 2068 × 1456
+// layer050 | clouds-a  | main clouds | 6437 × 3482
 
 // instantiate layers (and set properties, like position)
-//           layername, transX, transY, depth(prlx)
-var l000 = new MovingLayer('#layer000', 100, 100, 1);
-var l001 = new MovingLayer('#layer001', 200, 200, 2);
-var l010 = new MovingLayer('#layer010', 300, 300, 3);
-var l050 = new MovingLayer('#layer050', 400, 400, 4);
+//       layername, transX, transY, width ('0' to use css) depth(for parallax)
+var l000 = new MovingLayer('#layer000', 100, 100, '0', 1);
+var l001 = new MovingLayer('#layer001', 200, 200, '1789px', 2);
+var l010 = new MovingLayer('#layer010', 300, 300, '2068px', 3);
+var l050 = new MovingLayer('#layer050', 400, 400, '6437px', 4);
 
 l000.layerSetup();
 l001.layerSetup();
