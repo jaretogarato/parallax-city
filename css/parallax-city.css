@@ -1,0 +1,91 @@
+body{
+	background-color: #222;
+}
+
+.movingLayer{
+	position:absolute;
+	overflow:hidden;
+	margin:0;
+	padding:0;
+	transform:translate(0,0);
+}
+
+#wrapper{
+  z-index:1000;
+	left:0px;
+	top:0px;
+  position:absolute;
+	overflow:hidden;
+	background:none;
+  /* border: 3px solid orange; */
+  border:none;
+	width:100%;
+	height:100%;
+	margin:0;
+	padding:0;
+	box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+#layer000 {
+	z-index:-1;
+	left: 0;
+	top: 0;
+	width: 100%; height: 100%;
+	background-image:url(../images/jgg-photo.png);
+	background-size: 100%;
+}
+#layer001 {
+	z-index:1;
+	width:1789px; height:1174px;
+	left:0;
+	top:0;
+	background-image:url(../images/bldgs-03.png);
+}
+#layer010 {
+	z-index:10;
+	width:2068px; height:1456px;
+	left:0;
+	top:0;
+	background-image:url(../images/bldgs-bg.png);
+}
+#layer050 {
+	z-index:50;
+	width:6437px; height:3482px;
+	left:0;
+	top:0;
+	background-image:url(../images/clouds-a.png);
+	background-size:cover;
+	background-repeat:no-repeat;
+}
+#layer099 {
+	z-index:99;
+	width:410px; height:1600px;
+	left:0;
+	top:0;
+	background-image:url(../images/bldg01/bldg-01-bg.png);
+	opacity:0;
+	transition: opacity 1s;
+}
+#layer100 {
+	z-index:100;
+	width:388px; height:1501px;
+	left:0;
+	top:0;
+}
+#layer200 {
+	z-index:200;
+	width:304px; height:612px;
+	left:0;
+	top:0;
+	background-image:url(../images/bldg05/bldg-fg-05.png);
+	opacity:0;
+	transition: opacity 1s;
+}
+#layer201 {
+	z-index:201;
+	width:304px; height:612px;
+	left:0;
+	top:0;
+}
