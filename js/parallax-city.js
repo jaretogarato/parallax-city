@@ -33,14 +33,17 @@ function MovingLayer(layerId, left, top, width, depth) {
   this.depth = depth;
 
   // console.log('layerId: ', this.layerId);
-  // console.log('layerId width: ', this.width);
-  // console.log('layerId height: ', this.height);
+  // console.log('layer width: ', this.width);
+  // console.log('layer height: ', this.height);
   // ^^^ ok
 
   this.layerMove = function () {
-    var xtrans, ytrans, xtransn, ytransn,
-      steerXspeed, steerXdir, steerYspeed, steerYdir, viewCentX, viewCentY;
-    // x.toPrecision
+    var
+      xtrans, ytrans, xtransn, ytransn,
+      steerXspeed, steerXdir, steerYspeed, steerYdir,
+      viewCentX, viewCentY,
+      boundingRect, layerTop, layerBottom, layerLeft, layerRight,
+      layerIdShort;
 
     xtrans = parseFloat($(this.layerId).css('transform').split(',')[4], 10);
     ytrans = parseFloat($(this.layerId).css('transform').split(',')[5], 10);
@@ -48,6 +51,29 @@ function MovingLayer(layerId, left, top, width, depth) {
     viewCentY = $(window).height() / 2;
     steerXdir = viewCentX - xMousePos;
     steerYdir = viewCentY - yMousePos;
+
+    // if (this.layerId == '#layer000'){
+    layerIdShort = this.layerId;
+    if(layerIdShort.charAt(0) === '#'){
+     layerIdShort = layerIdShort.substr(1);
+    }
+    boundingRect = document.getElementById(layerIdShort).getBoundingClientRect();
+    layerTop = boundingRect.top;
+    layerBottom = layerTop + $(this.layerId).height();
+    // layerBottom = layerTop + this.height;
+    layerLeft = boundingRect.left;
+    layerRight = layerLeft + $(this.layerId).width();
+    // layerRight = layerLeft + this.width;
+    // console.clear();
+    console.log('layer: ', this.layerId);
+    // console.log('width: ', $(this.layerId).width());
+    // console.log('height: ', $(this.layerId).height());
+    console.log('left: ', layerLeft);
+    console.log('right: ', layerRight);
+    console.log('top: ', layerTop);
+    console.log('bottom: ', layerBottom);
+    console.log('--------------');
+    // }
 
     // console.log("steerXdir: " + steerXdir + " steerYdir: " + steerYdir);
     // console.log($(layer000).css(width));
@@ -70,7 +96,6 @@ function MovingLayer(layerId, left, top, width, depth) {
           steerXspeed = -1;
           break;
       }
-
       switch (true) {
         case (steerYdir < 75 && steerYdir > -75):
           steerYspeed = 0;
@@ -127,10 +152,10 @@ MovingLayer.prototype.layerSetup = function () {
 
 // instantiate layers (and set properties, like position)
 //       layername, transX, transY, width ('0' to use css) depth(for parallax)
-var l000 = new MovingLayer('#layer000', 100, 100, '0', 1);
+var l000 = new MovingLayer('#layer000', -100, -100, '0', 1);
 var l001 = new MovingLayer('#layer001', 200, 200, '1789px', 2);
 var l010 = new MovingLayer('#layer010', 300, 300, '2068px', 3);
-var l050 = new MovingLayer('#layer050', 400, 400, '6437px', 4);
+var l050 = new MovingLayer('#layer050', -400, -400, '6437px', 4);
 
 l000.layerSetup();
 l001.layerSetup();
