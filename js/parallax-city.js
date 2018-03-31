@@ -5,6 +5,7 @@
 
 // get mouse position, send velocity
 var mouseIsHovering = false, xMousePos, yMousePos;
+var bgXisFullyVisible = false, bgYisFullyVisible = false;
 
 $('#wrapper').mouseenter(function(){
     console.log('mouse entered');
@@ -37,6 +38,10 @@ function MovingLayer(layerId, left, top, width, depth) {
   // console.log('layer height: ', this.height);
   // ^^^ ok
 
+  this.checkBgVisibility = function () {
+
+  }
+
   this.layerMove = function () {
     var
       xtrans, ytrans, xtransn, ytransn,
@@ -44,11 +49,13 @@ function MovingLayer(layerId, left, top, width, depth) {
       viewCentX, viewCentY,
       boundingRect, layerTop, layerBottom, layerLeft, layerRight,
       layerIdShort;
+      windowWidth = $(window).width();
+      windowHeight = $(window).height();
 
     xtrans = parseFloat($(this.layerId).css('transform').split(',')[4], 10);
     ytrans = parseFloat($(this.layerId).css('transform').split(',')[5], 10);
-    viewCentX = $(window).width() / 2;
-    viewCentY = $(window).height() / 2;
+    viewCentX = windowWidth / 2;
+    viewCentY = windowHeight / 2;
     steerXdir = viewCentX - xMousePos;
     steerYdir = viewCentY - yMousePos;
 
@@ -65,14 +72,15 @@ function MovingLayer(layerId, left, top, width, depth) {
     layerRight = layerLeft + $(this.layerId).width();
     // layerRight = layerLeft + this.width;
     // console.clear();
-    console.log('layer: ', this.layerId);
     // console.log('width: ', $(this.layerId).width());
     // console.log('height: ', $(this.layerId).height());
-    console.log('left: ', layerLeft);
-    console.log('right: ', layerRight);
-    console.log('top: ', layerTop);
-    console.log('bottom: ', layerBottom);
-    console.log('--------------');
+
+    // console.log('layer: ', this.layerId);
+    // console.log('left: ', layerLeft);
+    // console.log('right: ', layerRight);
+    // console.log('top: ', layerTop);
+    // console.log('bottom: ', layerBottom);
+    // console.log('--------------');
     // }
 
     // console.log("steerXdir: " + steerXdir + " steerYdir: " + steerYdir);
@@ -139,28 +147,33 @@ MovingLayer.prototype.layerSetup = function () {
     "height": this.height,
     "left": this.left + "px",
     "top": this.top + "px"
-    // "background-color": this.color
   });
   // console.log("layerSetup ran");
 };
 
 // images
-// layer000 | jgg-photo | main bg     | 2879x2400
-// layer001 | bldgs-03  | light blue  | 1789x1174
-// layer010 | bldgs-bg  | dark gray   | 2068 × 1456
-// layer050 | clouds-a  | main clouds | 6437 × 3482
+// layer000 | jgg-photo  | main bg        | 2879x2400
+// layer001 | bldgs-03   | light blue     | 1789x1174
+// layer010 | bldgs-bg   | dark gray      | 2068 × 1456
+// layer050 | clouds-a   | main clouds    | 6437 × 3482
+// layer100 | bldg01     | top and bottom | 410 x 1501
+// layer200 | bldg-fg-05 | building fg    | 388 x 1501
+// layer201 |   |   | 304 x 612
 
 // instantiate layers (and set properties, like position)
 //       layername, transX, transY, width ('0' to use css) depth(for parallax)
-var l000 = new MovingLayer('#layer000', -100, -100, '0', 1);
-var l001 = new MovingLayer('#layer001', 200, 200, '1789px', 2);
-var l010 = new MovingLayer('#layer010', 300, 300, '2068px', 3);
-var l050 = new MovingLayer('#layer050', -400, -400, '6437px', 4);
+var
+  l000 = new MovingLayer('#layer000', -50, -50, '0', 1),
+  l001 = new MovingLayer('#layer001', 200, 200, '1789px', 2),
+  l010 = new MovingLayer('#layer010', 300, 300, '2068px', 3),
+  l050 = new MovingLayer('#layer050', -400, -400, '6437px', 4),
+  l100 = new MovingLayer('#layer100', 400, 400, '410px', 10);
 
 l000.layerSetup();
 l001.layerSetup();
 l010.layerSetup();
 l050.layerSetup();
+l100.layerSetup();
 
 
 // main loop: move them
@@ -172,5 +185,6 @@ setInterval(function () {
   l001.layerMove();
   l010.layerMove();
   l050.layerMove();
+  l100.layerMove();
   ++t;
-}, 1000 / 60);
+}, 1000 / 30);
