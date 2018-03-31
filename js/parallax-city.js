@@ -111,20 +111,29 @@ function MovingLayer(layerId, left, top, width, depth) {
       //   steerXspeed = (Math.abs(steerXdir) / (viewCentX)) * steerXpositive * 2;
       //   // console.log('steerXspeed:  ', steerXspeed);
       // }
-      steerXspeed = Math.pow((Math.abs(steerXdir) / (viewCentX)) * 2, 2) * steerXpositive;
+
+      // set speed based on mouse position
+      // power of 2.7 builds speed quickly
+      steerXspeed = Math.pow((Math.abs(steerXdir) / (viewCentX)) * 2, 2.7) * steerXpositive;
+      steerYspeed = Math.pow((Math.abs(steerYdir) / (viewCentY)) * 2, 2.7) * steerYpositive;
+      // stop movement when increment is small
+      // choke top speed for mouse positions closer to viewport center
       if (Math.abs(steerXspeed) < 0.05) {
         steerXspeed = 0;
+      } else if (Math.abs(steerXspeed) > 4) {
+        steerXspeed = 4 * steerXpositive;
       }
-      steerYspeed = Math.pow((Math.abs(steerYdir) / (viewCentY)) * 2, 2) * steerYpositive;
       if (Math.abs(steerYspeed) < 0.05) {
         steerYspeed = 0;
+      } else if (Math.abs(steerYspeed) > 4) {
+        steerYspeed = 4 * steerYpositive;
       }
     } else {
       steerXdir = 0;
       steerYdir = 0;
     }
-    xtransn = xtrans + (steerXspeed * this.depth);
-    ytransn = ytrans + (steerYspeed * this.depth);
+    xtransn = Math.round(xtrans + (steerXspeed * this.depth));
+    ytransn = Math.round(ytrans + (steerYspeed * this.depth));
     // console.log(xtrans + " *** " + ytrans);
 
     $(layerId).css({
@@ -165,8 +174,8 @@ MovingLayer.prototype.layerSetup = function () {
 var
   l000 = new MovingLayer('#layer000', -50, -50, 0, 1),
   l001 = new MovingLayer('#layer001', 200, 200, 1789, 2),
-  l010 = new MovingLayer('#layer010', 300, 300, 2068, 3),
-  l050 = new MovingLayer('#layer050', -400, -400, 6437, 4),
+  l010 = new MovingLayer('#layer010', 300, 300, 2068, 7),
+  l050 = new MovingLayer('#layer050', -400, -400, 6437, 8),
   l100 = new MovingLayer('#layer100', 400, 400, 410, 10);
 
 l000.layerSetup();
