@@ -55,7 +55,7 @@ body{
 	z-index:-1;
 	left: 0;
 	top: 0;
-	width: 110%; height: 110%;
+	width: 120%; height: 120%;
 	background-image:url(../images/jgg-photo.png);
 	background-size: 100%;
 }

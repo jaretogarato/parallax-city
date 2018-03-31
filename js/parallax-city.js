@@ -39,13 +39,14 @@ function MovingLayer(layerId, left, top, width, depth) {
   // ^^^ ok
 
   this.checkBgVisibility = function () {
-
+    // check edges of bg and clouds
   }
 
   this.layerMove = function () {
     var
       xtrans, ytrans, xtransn, ytransn,
-      steerXspeed, steerXdir, steerYspeed, steerYdir,
+      steerXspeed, steerXdir, steerXpositive = 1,
+      steerYspeed, steerYdir, steerYpositive = 1,
       viewCentX, viewCentY,
       boundingRect, layerTop, layerBottom, layerLeft, layerRight,
       layerIdShort;
@@ -87,45 +88,40 @@ function MovingLayer(layerId, left, top, width, depth) {
     // console.log($(layer000).css(width));
 
     if(mouseIsHovering){
+      steerXdir > 0 ? steerXpositive = 1 : steerXpositive = -1;
+      steerYdir > 0 ? steerYpositive = 1 : steerYpositive = -1;
+      // if(steerXdir < 0){
+      //   steerXpositive = false;
+      // } else {
+      //   steerXpositive = true;
+      // }
       switch (true) {
-        case (steerXdir < 100 && steerXdir > -100):
+        case (Math.abs(steerXdir) < 100):
           steerXspeed = 0;
           break;
-        case (steerXdir < 250 && steerXdir > 0):
-          steerXspeed = 0.5;
+        case (Math.abs(steerXdir) < 250):
+          steerXspeed = 0.5 * steerXpositive;
           break;
-        case (steerXdir > -250 && steerXdir < 0):
-          steerXspeed = -.5;
-          break;
-        case (steerXdir >= 250):
-          steerXspeed = 1;
-          break;
-        default:
-          steerXspeed = -1;
+        case (Math.abs(steerXdir) >= 250):
+          steerXspeed = 1 * steerXpositive;
           break;
       }
       switch (true) {
-        case (steerYdir < 75 && steerYdir > -75):
+        case (Math.abs(steerYdir) < 75):
           steerYspeed = 0;
           break;
-        case (steerYdir < 200 && steerYdir > 0):
-          steerYspeed = 0.5;
+        case (Math.abs(steerYdir) < 200):
+          steerYspeed = 0.5 * steerYpositive;
           break;
-        case (steerYdir > -200 && steerYdir < 0):
-          steerYspeed = -.5;
-          break;
-        case (steerYdir >= 200):
-          steerYspeed = 1;
-          break;
-        default:
-          steerYspeed = -1;
+        case (Math.abs(steerYdir) >= 200):
+          steerYspeed = 1 * steerYpositive;
           break;
       }
     } else {
       steerXdir = 0;
       steerYdir = 0;
     }
-    xtransn = xtrans + (steerXspeed * this.depth); // *** use smaller values
+    xtransn = xtrans + (steerXspeed * this.depth);
     ytransn = ytrans + (steerYspeed * this.depth);
     // console.log(xtrans + " *** " + ytrans);
 
