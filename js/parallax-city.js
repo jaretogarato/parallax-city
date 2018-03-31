@@ -12,10 +12,8 @@ var mouseIsHovering = false, xMousePos, yMousePos;
 var bgXisFullyVisible = false, bgYisFullyVisible = false;
 
 $('#wrapper').mouseenter(function(){
-    console.log('mouse entered');
     mouseIsHovering = true;
 }).mouseleave(function(){
-    console.log('mouse left');
     mouseIsHovering = false;
 });
 
@@ -94,11 +92,6 @@ function MovingLayer(layerId, left, top, width, depth) {
     if(mouseIsHovering){
       steerXdir > 0 ? steerXpositive = 1 : steerXpositive = -1;
       steerYdir > 0 ? steerYpositive = 1 : steerYpositive = -1;
-      // if(steerXdir < 0){
-      //   steerXpositive = false;
-      // } else {
-      //   steerXpositive = true;
-      // }
 
       // switch (true) {
       //   case (Math.abs(steerXdir) < 100):
@@ -112,30 +105,19 @@ function MovingLayer(layerId, left, top, width, depth) {
       //     break;
       // }
 
-      if (Math.abs(steerXdir) < 100) {
-        steerXspeed = 0;
-      } else {
-        steerXspeed = (Math.abs(steerXdir) / (viewCentX)) * steerXpositive * 2;
-        // console.log('steerXspeed:  ', steerXspeed);
-      }
-
-      // switch (true) {
-      //   case (Math.abs(steerYdir) < 75):
-      //     steerYspeed = 0;
-      //     break;
-      //   case (Math.abs(steerYdir) < 200):
-      //     steerYspeed = 0.5 * steerYpositive;
-      //     break;
-      //   case (Math.abs(steerYdir) >= 200):
-      //     steerYspeed = 1 * steerYpositive;
-      //     break;
+      // if (Math.abs(steerXdir) < 100) {
+      //   steerXspeed = 0;
+      // } else {
+      //   steerXspeed = (Math.abs(steerXdir) / (viewCentX)) * steerXpositive * 2;
+      //   // console.log('steerXspeed:  ', steerXspeed);
       // }
-
-      if (Math.abs(steerYdir) < 75) {
+      steerXspeed = Math.pow((Math.abs(steerXdir) / (viewCentX)) * 2, 2) * steerXpositive;
+      if (Math.abs(steerXspeed) < 0.05) {
+        steerXspeed = 0;
+      }
+      steerYspeed = Math.pow((Math.abs(steerYdir) / (viewCentY)) * 2, 2) * steerYpositive;
+      if (Math.abs(steerYspeed) < 0.05) {
         steerYspeed = 0;
-      } else {
-        steerYspeed = (Math.abs(steerYdir) / (viewCentY)) * steerYpositive * 2;
-        // console.log('steerYspeed: ', steerYspeed);
       }
     } else {
       steerXdir = 0;
@@ -179,8 +161,6 @@ MovingLayer.prototype.layerSetup = function () {
 // instantiate layers (and set properties, like position)
 // depth value is for parallax; higher values are closer to viewer
 // layername, transX, transY, width ('0' to use css) depth
-
-// TODO: remove '#'s and 'px's
 
 var
   l000 = new MovingLayer('#layer000', -50, -50, 0, 1),
