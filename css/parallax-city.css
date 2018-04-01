@@ -1,5 +1,10 @@
 body{
 	background-color: #222;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 .movingLayer{
@@ -55,7 +60,7 @@ body{
 	z-index:-1;
 	left: 0;
 	top: 0;
-	width: 120%; height: 120%;
+	width: 150%; height: 150%;
 	background-image:url(../images/jgg-photo.png);
 	background-size: 100%;
 }
