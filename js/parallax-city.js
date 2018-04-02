@@ -5,13 +5,13 @@
 
 // TODO: recalculate positions when window is resized
 
-// get mouse position, send velocity
+// global variables (grumble, grumble)
 var
   mouseIsHovering = false, xMousePos, yMousePos,
   windowWidth = $(window).width(),
-  windowHeight = $(window).height();
-
-var
+  windowHeight = $(window).height(),
+  moveLeftIsOk = 1, moveRightIsOk = 1,
+  moveUpIsOk = 1, moveDownIsOk = 1,
   l000 = new MovingLayer('#layer000', '-25%', '-25%', 0, 0.35),
   l001 = new MovingLayer('#layer001', '-10%', '-10%', 1789, 2.5),
   l010 = new MovingLayer('#layer010', '-15%', '-15%', 2068, 5),
@@ -19,6 +19,7 @@ var
   l100 = new MovingLayer('#layer100', '-20%', '-20%', 410, 9);
 
 
+// universal functions
 $('#wrapper').mouseenter(function(){
   mouseIsHovering = true;
 }).mouseleave(function(){
@@ -34,9 +35,7 @@ $("#wrapper").mousemove(function(event) {
 // constructor function: layers
 function MovingLayer(layerId, left, top, width, depth) {
   var
-    xtrans, ytrans,
-    moveLeftIsOk = true, moveRightIsOk = true,
-    moveUpIsOk = true, moveDownIsOk = true;
+    xtrans = 0, ytrans = 0;
 
   this.layerId = layerId;
   this.top = top;
@@ -66,8 +65,6 @@ function MovingLayer(layerId, left, top, width, depth) {
     layerLeft = boundingRect.left;
     layerRight = layerLeft + $(this.layerId).width();
 
-    // console.log("layerId: ", layerId);
-
     if(edge == 'left') {
       if(layerLeft >= 0) {return false;} else {return true;}
     }
@@ -80,26 +77,6 @@ function MovingLayer(layerId, left, top, width, depth) {
     if(edge == 'bottom') {
       if(layerBottom <= windowHeight) {return false;} else {return true;}
     }
-
-
-    // if(axis == 'x') {
-    //   if(layerLeft >= 0 || layerRight <= windowWidth) {
-    //     // return("Left or right edge is visible");
-    //     return false;
-    //   } else {
-    //     // return("X axis is good");
-    //     return true;
-    //   }
-    // }
-    // if(axis == 'y') {
-    //   if(layerTop >= 0 || layerBottom <= windowHeight) {
-    //     // return("Top or bottom edge is visible");
-    //     return false;
-    //   } else {
-    //     // return("Y axis is good");
-    //     return true;
-    //   }
-    // }
   }
 
   this.layerMove = function () {
@@ -109,10 +86,7 @@ function MovingLayer(layerId, left, top, width, depth) {
       steerYspeed, steerYdir, steerYpositive = 1,
       targXspeed, targYspeed,
       viewCentX, viewCentY,
-      // boundingRect,
       layerTop, layerBottom, layerLeft, layerRight,
-      // windowWidth = $(window).width(),
-      // windowHeight = $(window).height(),
       layerIdShort;
 
     if(isNaN(xtrans)) {
@@ -128,10 +102,17 @@ function MovingLayer(layerId, left, top, width, depth) {
     steerYdir = viewCentY - yMousePos;
 
     if(layerId == '#layer000') {
-      console.log('left is hidden?   ', this.isLayerEdgeHidden('left'));
-      console.log('right is hidden?  ', this.isLayerEdgeHidden('right'));
-      console.log('top is hidden?    ', this.isLayerEdgeHidden('top'));
-      console.log('bottom is hidden? ', this.isLayerEdgeHidden('bottom'));
+      // vvv shorter than four else statements
+      moveLeftIsOk = moveRightIsOk = moveUpIsOk = moveDownIsOk = 0;
+      if(this.isLayerEdgeHidden('left')) { moveLeftIsOk = 1; }
+      if(this.isLayerEdgeHidden('right')) { moveRightIsOk = 1; }
+      if(this.isLayerEdgeHidden('top')) { moveUpIsOk = 1; }
+      if(this.isLayerEdgeHidden('bottom')) { moveDownIsOk = 1; }
+
+      // console.log('moveLeftIsOk:  ', moveLeftIsOk);
+      // console.log('moveRightIsOk: ', moveRightIsOk);
+      // console.log('moveUpIsOk:    ', moveUpIsOk);
+      // console.log('moveDownIsOk:  ', moveDownIsOk);
     }
 
     if(mouseIsHovering){
@@ -161,8 +142,20 @@ function MovingLayer(layerId, left, top, width, depth) {
       steerYdir = 0;
     }
 
-    xtrans = xtrans + (steerXspeed * this.depth);
-    ytrans = ytrans + (steerYspeed * this.depth);
+    if(steerXdir < 0 && moveRightIsOk) {
+      xtrans = xtrans + (steerXspeed * this.depth);
+    }
+    if(steerXdir > 0 && moveLeftIsOk) {
+      xtrans = xtrans + (steerXspeed * this.depth);
+    }
+    if(steerYdir < 0 && moveDownIsOk) {
+      ytrans = ytrans + (steerYspeed * this.depth);
+    }
+    if(steerYdir > 0 && moveUpIsOk) {
+      ytrans = ytrans + (steerYspeed * this.depth);
+    }
+    // xtrans = xtrans + (steerXspeed * this.depth);
+    // ytrans = ytrans + (steerYspeed * this.depth);
     xtransn = Math.round(xtrans);
     ytransn = Math.round(ytrans);
 

@@ -115,7 +115,7 @@ body{
 	z-index: 10000;
   position: absolute;
 	float:left;
-  background-color: rgba(255 50 50 0.2);
+  /* background-color: rgba(255 50 50 0.2); */
 }
 h2 {
 	font-size: 30px;
