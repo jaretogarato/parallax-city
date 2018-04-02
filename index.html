@@ -6,13 +6,14 @@
 	<title>OOP Div Maker</title>
 	<link rel="stylesheet" href="css/parallax-city.css">
 
-	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-
   <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,100italic' rel='stylesheet' type='text/css' />
 	<link href='http://fonts.googleapis.com/css?family=Archivo+Narrow:400,400italic,700,700italic' rel='stylesheet' type='text/css' />
 	<link href='http://fonts.googleapis.com/css?family=Comfortaa:400,300,700' rel='stylesheet' type='text/css' />
 	<link href='http://fonts.googleapis.com/css?family=Archivo+Black' rel='stylesheet' type='text/css' />
 	<link href='http://fonts.googleapis.com/css?family=Oswald:400,700,300' rel='stylesheet' type='text/css' />
+
+  <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/greensock/minified/TweenMax.min.js"></script>
 </head>
 
 <body>
@@ -21,8 +22,15 @@
 		<h2>Parallax City</h2>
 	</div>
 	<div id="wrapper">
+    <div class='sunBox'>
+      <div class='animatedSun' data-spritesize='480' data-spritedirection='vertical' style='width:590px; height:480px;'>
+        <!-- If you want it to take the correct space before it is activated, a width/height style on .animatedimage is needed in the HTML -->
+        <img src='images/sun-circle/sun-circle-v06.png' width='590' height='29280px' class='poster' style='top:-28810px;' />
+        <!-- starting top/left sets the 'loading' frame -->
+      </div>
+    </div>
 		<div id="layer000" class="movingLayer"></div>
-		<div id="layer001" class="movingLayer"></div>
+		<div id="layer007" class="movingLayer"></div>
 		<div id="layer010" class="movingLayer"></div>
 		<div id="layer050" class="movingLayer"></div>
     <div id="layer100" class="movingLayer cf">

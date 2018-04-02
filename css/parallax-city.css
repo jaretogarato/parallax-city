@@ -64,8 +64,8 @@ body{
 	background-image:url(../images/jgg-photo.png);
 	background-size: 100%;
 }
-#layer001 {
-	z-index:1;
+#layer007 {
+	z-index:7;
 	width:1789px; height:1174px;
 	left:0;
 	top:0;
@@ -126,4 +126,38 @@ h2 {
   text-transform: uppercase;
   color: #202026;
 font-weight: 300;
+}
+.animatedSun > * {
+  position: absolute;
+  display: inline-block;
+  visibility: hidden;
+  border: 0;
+  z-index: 5;
+}
+/* the image that will show while waiting for javascript to load, and what users without javascript will see - if you don't want to use a class you might use *:first-child to select this instead */
+.animatedSun > .poster {
+  position: static;
+  visibility: visible;
+}
+/* spritesheets will rely on left/top positioning */
+.animatedSun[data-spritesize] > * {
+  position: relative;
+}
+.sunBox {
+  width: 590px;
+	height: 480px;
+	position: absolute;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+	top: 0;
+	right: -150px;
+  top: -100px;
+  background: none;
+  border-radius: 5px;
+  color: #777;
+  cursor: pointer;
+}
+.sunBox:hover{
+	cursor:auto;
 }
