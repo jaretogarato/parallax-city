@@ -6,8 +6,12 @@
 // TODO: recalculate positions when window is resized
 
 // get mouse position, send velocity
-var mouseIsHovering = false, xMousePos, yMousePos;
-var bgXisFullyVisible = false, bgYisFullyVisible = false;
+var
+  mouseIsHovering = false, xMousePos, yMousePos,
+  bgXisFullyVisible = false, bgYisFullyVisible = false,
+  windowWidth = $(window).width(),
+  windowHeight = $(window).height();
+
 
 $('#wrapper').mouseenter(function(){
   mouseIsHovering = true;
@@ -43,9 +47,7 @@ function MovingLayer(layerId, left, top, width, depth) {
   // ^^^ ok
 
   // find the edges of each layer
-  this.checkBgVisibility = function () {
-    // TODO: check edges of bg and clouds
-    // find the edges of each layer
+  this.checkBgVisibility = function() {
     var
       boundingRect, layerIdShort,
       isLayerXvisible = false, isLayerYvisible = false;
@@ -61,16 +63,16 @@ function MovingLayer(layerId, left, top, width, depth) {
     layerLeft = boundingRect.left;
     layerRight = layerLeft + $(this.layerId).width();
 
-    console.log(">layerId: ", layerId);
-    // console.log(">layerIdShort: ", layerIdShort);
-    // console.log('left: ', layerLeft);
-    // console.log('right: ', layerRight);
-    // console.log('top: ', layerTop);
-    // console.log('bottom: ', layerBottom);
-    console.log('--------------');
-
-    // console.log("steerXdir: " + steerXdir + " steerYdir: " + steerYdir);
-    // console.log($(layer000).css(width));
+    if(layerIdShort == 'layer000'){
+      console.log("layerId: ", layerId);
+      // console.log("window width: ", windowWidth);
+      // console.log("window height: ", windowHeight);
+      if(layerLeft > 0) {console.log("Left edge is visible");}
+      if(layerRight < windowWidth) {console.log("Right edge is visible");}
+      if(layerTop > 0) {console.log("Top edge is visible");}
+      if(layerBottom < windowHeight) {console.log("Bottom edge is visible");}
+      console.log('--------------');
+    }
   }
 
   this.layerMove = function () {
@@ -82,8 +84,8 @@ function MovingLayer(layerId, left, top, width, depth) {
       viewCentX, viewCentY,
       // boundingRect,
       layerTop, layerBottom, layerLeft, layerRight,
-      windowWidth = $(window).width(),
-      windowHeight = $(window).height(),
+      // windowWidth = $(window).width(),
+      // windowHeight = $(window).height(),
       layerIdShort;
 
     if(isNaN(xtrans)) {
@@ -189,11 +191,11 @@ MovingLayer.prototype.layerSetup = function () {
 // TODO: instead of fix %s for top and left below, calculate % based on
 //   size of viewport and size of image
 var
-  l000 = new MovingLayer('#layer000', '-25%', '-25%', 0, 0.25),
+  l000 = new MovingLayer('#layer000', '-25%', '-25%', 0, 0.35),
   l001 = new MovingLayer('#layer001', '-10%', '-10%', 1789, 2.5),
-  l010 = new MovingLayer('#layer010', '-15%', '-15%', 2068, 7),
-  l050 = new MovingLayer('#layer050', '-100%', '-150%', 6437, 5),
-  l100 = new MovingLayer('#layer100', '-20%', '-20%', 410, 10);
+  l010 = new MovingLayer('#layer010', '-15%', '-15%', 2068, 5),
+  l050 = new MovingLayer('#layer050', '-100%', '-150%', 6437, 6),
+  l100 = new MovingLayer('#layer100', '-20%', '-20%', 410, 9);
 
 l000.layerSetup();
 l001.layerSetup();
