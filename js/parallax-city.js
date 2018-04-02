@@ -8,9 +8,15 @@
 // get mouse position, send velocity
 var
   mouseIsHovering = false, xMousePos, yMousePos,
-  bgXisFullyVisible = false, bgYisFullyVisible = false,
   windowWidth = $(window).width(),
   windowHeight = $(window).height();
+
+var
+  l000 = new MovingLayer('#layer000', '-25%', '-25%', 0, 0.35),
+  l001 = new MovingLayer('#layer001', '-10%', '-10%', 1789, 2.5),
+  l010 = new MovingLayer('#layer010', '-15%', '-15%', 2068, 5),
+  l050 = new MovingLayer('#layer050', '-100%', '-150%', 6437, 6),
+  l100 = new MovingLayer('#layer100', '-20%', '-20%', 410, 9);
 
 
 $('#wrapper').mouseenter(function(){
@@ -24,9 +30,13 @@ $("#wrapper").mousemove(function(event) {
   yMousePos = event.pageY;
 });
 
+
 // constructor function: layers
 function MovingLayer(layerId, left, top, width, depth) {
-  var xtrans, ytrans;
+  var
+    xtrans, ytrans,
+    moveLeftIsOk = true, moveRightIsOk = true,
+    moveUpIsOk = true, moveDownIsOk = true;
 
   this.layerId = layerId;
   this.top = top;
@@ -39,15 +49,8 @@ function MovingLayer(layerId, left, top, width, depth) {
   this.height = $(this.layerId).css('height');
   this.depth = depth;
 
-  // console.log('layerId: ', this.layerId);
-  // console.log('this.top: ', this.top);
-  // console.log('this.left: ', this.left);
-  // console.log('layer width: ', this.width);
-  // console.log('layer height: ', this.height);
-  // ^^^ ok
-
-  // find the edges of each layer
-  this.checkBgVisibility = function() {
+  // find the edges of each layer and make sure they're not in the viewport
+  this.isLayerEdgeHidden = function(edge) {
     var
       boundingRect, layerIdShort,
       isLayerXvisible = false, isLayerYvisible = false;
@@ -63,16 +66,40 @@ function MovingLayer(layerId, left, top, width, depth) {
     layerLeft = boundingRect.left;
     layerRight = layerLeft + $(this.layerId).width();
 
-    if(layerIdShort == 'layer000'){
-      console.log("layerId: ", layerId);
-      // console.log("window width: ", windowWidth);
-      // console.log("window height: ", windowHeight);
-      if(layerLeft > 0) {console.log("Left edge is visible");}
-      if(layerRight < windowWidth) {console.log("Right edge is visible");}
-      if(layerTop > 0) {console.log("Top edge is visible");}
-      if(layerBottom < windowHeight) {console.log("Bottom edge is visible");}
-      console.log('--------------');
+    // console.log("layerId: ", layerId);
+
+    if(edge == 'left') {
+      if(layerLeft >= 0) {return false;} else {return true;}
     }
+    if(edge == 'right') {
+      if(layerRight <= windowWidth) {return false;} else {return true;}
+    }
+    if(edge == 'top') {
+      if(layerTop >= 0) {return false;} else {return true;}
+    }
+    if(edge == 'bottom') {
+      if(layerBottom <= windowHeight) {return false;} else {return true;}
+    }
+
+
+    // if(axis == 'x') {
+    //   if(layerLeft >= 0 || layerRight <= windowWidth) {
+    //     // return("Left or right edge is visible");
+    //     return false;
+    //   } else {
+    //     // return("X axis is good");
+    //     return true;
+    //   }
+    // }
+    // if(axis == 'y') {
+    //   if(layerTop >= 0 || layerBottom <= windowHeight) {
+    //     // return("Top or bottom edge is visible");
+    //     return false;
+    //   } else {
+    //     // return("Y axis is good");
+    //     return true;
+    //   }
+    // }
   }
 
   this.layerMove = function () {
@@ -100,7 +127,12 @@ function MovingLayer(layerId, left, top, width, depth) {
     steerXdir = viewCentX - xMousePos;
     steerYdir = viewCentY - yMousePos;
 
-    this.checkBgVisibility();
+    if(layerId == '#layer000') {
+      console.log('left is hidden?   ', this.isLayerEdgeHidden('left'));
+      console.log('right is hidden?  ', this.isLayerEdgeHidden('right'));
+      console.log('top is hidden?    ', this.isLayerEdgeHidden('top'));
+      console.log('bottom is hidden? ', this.isLayerEdgeHidden('bottom'));
+    }
 
     if(mouseIsHovering){
       // set l/r, u/d direction
@@ -128,6 +160,7 @@ function MovingLayer(layerId, left, top, width, depth) {
       steerXdir = 0;
       steerYdir = 0;
     }
+
     xtrans = xtrans + (steerXspeed * this.depth);
     ytrans = ytrans + (steerYspeed * this.depth);
     xtransn = Math.round(xtrans);
@@ -190,12 +223,6 @@ MovingLayer.prototype.layerSetup = function () {
 
 // TODO: instead of fix %s for top and left below, calculate % based on
 //   size of viewport and size of image
-var
-  l000 = new MovingLayer('#layer000', '-25%', '-25%', 0, 0.35),
-  l001 = new MovingLayer('#layer001', '-10%', '-10%', 1789, 2.5),
-  l010 = new MovingLayer('#layer010', '-15%', '-15%', 2068, 5),
-  l050 = new MovingLayer('#layer050', '-100%', '-150%', 6437, 6),
-  l100 = new MovingLayer('#layer100', '-20%', '-20%', 410, 9);
 
 l000.layerSetup();
 l001.layerSetup();
@@ -215,4 +242,4 @@ setInterval(function () {
   l050.layerMove();
   l100.layerMove();
   ++t;
-}, 1000 / 60);
+}, 1000 / 30);
