@@ -42,8 +42,35 @@ function MovingLayer(layerId, left, top, width, depth) {
   // console.log('layer height: ', this.height);
   // ^^^ ok
 
+  // find the edges of each layer
   this.checkBgVisibility = function () {
-    // check edges of bg and clouds
+    // TODO: check edges of bg and clouds
+    // find the edges of each layer
+    var
+      boundingRect, layerIdShort,
+      isLayerXvisible = false, isLayerYvisible = false;
+
+    layerIdShort = this.layerId;
+    if(layerIdShort.charAt(0) === '#'){
+      layerIdShort = layerIdShort.substr(1);
+    }
+
+    boundingRect = document.getElementById(layerIdShort).getBoundingClientRect();
+    layerTop = boundingRect.top;
+    layerBottom = layerTop + $(this.layerId).height();
+    layerLeft = boundingRect.left;
+    layerRight = layerLeft + $(this.layerId).width();
+
+    console.log(">layerId: ", layerId);
+    // console.log(">layerIdShort: ", layerIdShort);
+    // console.log('left: ', layerLeft);
+    // console.log('right: ', layerRight);
+    // console.log('top: ', layerTop);
+    // console.log('bottom: ', layerBottom);
+    console.log('--------------');
+
+    // console.log("steerXdir: " + steerXdir + " steerYdir: " + steerYdir);
+    // console.log($(layer000).css(width));
   }
 
   this.layerMove = function () {
@@ -53,13 +80,11 @@ function MovingLayer(layerId, left, top, width, depth) {
       steerYspeed, steerYdir, steerYpositive = 1,
       targXspeed, targYspeed,
       viewCentX, viewCentY,
-      boundingRect, layerTop, layerBottom, layerLeft, layerRight,
+      // boundingRect,
+      layerTop, layerBottom, layerLeft, layerRight,
       windowWidth = $(window).width(),
       windowHeight = $(window).height(),
       layerIdShort;
-
-    // xtrans = parseFloat($(this.layerId).css('transform').split(',')[4], 10);
-    // ytrans = parseFloat($(this.layerId).css('transform').split(',')[5], 10);
 
     if(isNaN(xtrans)) {
       xtrans = 0;
@@ -73,29 +98,7 @@ function MovingLayer(layerId, left, top, width, depth) {
     steerXdir = viewCentX - xMousePos;
     steerYdir = viewCentY - yMousePos;
 
-    layerIdShort = this.layerId;
-    if(layerIdShort.charAt(0) === '#'){
-      layerIdShort = layerIdShort.substr(1);
-    }
-
-    // find the edges of each layer
-    boundingRect = document.getElementById(layerIdShort).getBoundingClientRect();
-    layerTop = boundingRect.top;
-    layerBottom = layerTop + $(this.layerId).height();
-    // layerBottom = layerTop + this.height;
-    layerLeft = boundingRect.left;
-    layerRight = layerLeft + $(this.layerId).width();
-    // layerRight = layerLeft + this.width;
-
-    // console.log('layer: ', this.layerId);
-    // console.log('left: ', layerLeft);
-    // console.log('right: ', layerRight);
-    // console.log('top: ', layerTop);
-    // console.log('bottom: ', layerBottom);
-    // console.log('--------------');
-
-    // console.log("steerXdir: " + steerXdir + " steerYdir: " + steerYdir);
-    // console.log($(layer000).css(width));
+    this.checkBgVisibility();
 
     if(mouseIsHovering){
       // set l/r, u/d direction
@@ -186,7 +189,7 @@ MovingLayer.prototype.layerSetup = function () {
 // TODO: instead of fix %s for top and left below, calculate % based on
 //   size of viewport and size of image
 var
-  l000 = new MovingLayer('#layer000', '-25%', '-25%', 0, 1.5),
+  l000 = new MovingLayer('#layer000', '-25%', '-25%', 0, 0.25),
   l001 = new MovingLayer('#layer001', '-10%', '-10%', 1789, 2.5),
   l010 = new MovingLayer('#layer010', '-15%', '-15%', 2068, 7),
   l050 = new MovingLayer('#layer050', '-100%', '-150%', 6437, 5),

@@ -57,7 +57,7 @@ body{
 }
 
 #layer000 {
-	z-index:-1;
+	z-index: 0;
 	left: 0;
 	top: 0;
 	width: 150%; height: 150%;
@@ -110,4 +110,20 @@ body{
 	width:304px; height:612px;
 	left:0;
 	top:0;
+}
+#me {
+	z-index: 10000;
+  position: absolute;
+	float:left;
+  background-color: rgba(255 50 50 0.2);
+}
+h2 {
+	font-size: 30px;
+	line-height: 25px;
+  font-family:'Lato', 'Oswald', 'Archivo Narrow', 'Open Sans', arial, sans-serif;
+  letter-spacing: -2px;
+  margin: 20px;
+  text-transform: uppercase;
+  color: #202026;
+font-weight: 300;
 }
