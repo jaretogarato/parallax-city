@@ -19,6 +19,15 @@ var
   l100 = new MovingLayer('#layer100', '-20%', '-20%', 410, 9);
 
 
+// preload animation images
+$(window).on('load', function () {
+  TweenLite.delayedCall(0.1, function () { // start delay
+    $('.animatedSun').animateimage(10, -1).parent(); // activate animation on the animatedSun elements
+	});
+	// doLayout('ready');
+	// fly();
+});
+
 // universal functions
 $('#wrapper').mouseenter(function(){
   mouseIsHovering = true;
@@ -29,15 +38,6 @@ $('#wrapper').mouseenter(function(){
 $("#wrapper").mousemove(function(event) {
   xMousePos = event.pageX;
   yMousePos = event.pageY;
-});
-
-$(window).on('load', function () { // load images before animating
-	"use strict";
-  TweenLite.delayedCall(0.1, function () { // start delay
-    $('.animatedSun').animateimage(10, -1).parent(); // activate animation on the animatedSun elements
-	});
-	// doLayout('ready');
-	// fly();
 });
 
 
@@ -197,17 +197,6 @@ MovingLayer.prototype.layerSetup = function () {
     "left": this.left,
     "top": this.top
   });
-  // console.log('layerId: ', this.layerId);
-  // console.log('this.top: ', this.top);
-  // console.log('this.left: ', this.left);
-  // console.log('layer width: ', this.width);
-  // console.log('layer height: ', this.height);
-  // console.log('-----');
-  // console.log('read top: ', $(this.layerId).position().top);
-  // console.log('read left: ', $(this.layerId).position().left);
-  // console.log('read width: ', $(this.layerId).width());
-  // console.log('read height: ', $(this.layerId).height());
-  // console.log('-------------------');
 };
 
 // images
@@ -216,9 +205,7 @@ MovingLayer.prototype.layerSetup = function () {
 // layer007 | bldgs-03   | light blue     | 1789x1174
 // layer010 | bldgs-bg   | dark gray      | 2068 × 1456
 // layer050 | clouds-a   | main clouds    | 6437 × 3482
-// layer100 | bldg01     | top and bottom | 410 x 1501
-// layer200 | bldg-fg-05 | building fg    | 388 x 1501
-// layer201 |   |   | 304 x 612
+// layer100 | bldg01     | top and bottom | 410 x 1600
 
 // instantiate layers (and set properties, like position)
 // depth value is for parallax; higher values are closer to viewer

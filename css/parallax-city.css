@@ -124,8 +124,9 @@ h2 {
   letter-spacing: -2px;
   margin: 20px;
   text-transform: uppercase;
-  color: #202026;
-font-weight: 300;
+  /* color: #202026; */
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 300;
 }
 .animatedSun > * {
   position: absolute;
@@ -151,8 +152,8 @@ font-weight: 300;
   margin: 0;
   padding: 0;
 	top: 0;
-	right: -150px;
-  top: -100px;
+	right: -160px;
+  top: -170px;
   background: none;
   border-radius: 5px;
   color: #777;
