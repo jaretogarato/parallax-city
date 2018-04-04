@@ -15,7 +15,7 @@ var
   // depth value is for parallax; higher values appear closer to viewer
   // arguments: layername, transX, transY, width ('0' to use css depth)
   l000 = new MovingLayer('#layer000', '-25%', '-25%', 0, 0.7),
-  l010 = new MovingLayer('#layer010', '-15%', '-15%', 2068, 2.5),
+  l010 = new MovingLayer('#layer010', '-80%', '-15%', 2068, 2.5),
   l020 = new MovingLayer('#layer020', '-10%', '-10%', 1789, 5),
   l050 = new MovingLayer('#layer050', '-500%', '-500%', 0, 6),
   l100 = new MovingLayer('#layer100', '-200%', '-20%', 410, 9);
@@ -23,10 +23,16 @@ var
   l500 = new MovingLayer('#layer500', '280%', '-80%', 304, 9);
 
 
-// preload animation images
+
 $(window).on('load', function () {
+  // preload animation images
   TweenLite.delayedCall(0.1, function () { // start delay
-    $('.animatedSun').animateimage(10, -1).parent(); // activate animation on the animatedSun elements
+    // activate animation on the animatedSun elements
+    $('.animatedSun').animateimage(10, -1).parent();
+	});
+  $("#layer100").click(function () {
+		$("#jellyfish").css({'visibility': 'visible'});
+		$("#jellyfish").load("jellyfish.html");
 	});
 	// doLayout('ready');
 	// fly();
@@ -42,6 +48,10 @@ $('#wrapper').mouseenter(function(){
 $("#wrapper").mousemove(function(event) {
   xMousePos = event.pageX;
   yMousePos = event.pageY;
+});
+
+$(window).resize(function() {
+  updateImageSize();
 });
 
 
