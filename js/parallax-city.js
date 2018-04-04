@@ -8,23 +8,26 @@
 // global variables (grumble, grumble)
 var
   mouseIsHovering = false, xMousePos, yMousePos,
-  windowWidth = $(window).width(),
-  windowHeight = $(window).height(),
+  // windowWidth = $(window).width(),
+  // windowHeight = $(window).height(),
+  windowWidth,
+  windowHeight,
   moveLeftIsOk = 1, moveRightIsOk = 1,
   moveUpIsOk = 1, moveDownIsOk = 1,
   // depth value is for parallax; higher values appear closer to viewer
-  // arguments: layername, transX, transY, width ('0' to use css depth)
+  // arguments: layername, left, top, width ('0' to use css depth)
   l000 = new MovingLayer('#layer000', '-25%', '-25%', 0, 0.7),
   l010 = new MovingLayer('#layer010', '-80%', '-15%', 2068, 2.5),
   l020 = new MovingLayer('#layer020', '-10%', '-10%', 1789, 5),
-  l050 = new MovingLayer('#layer050', '-500%', '-500%', 0, 6),
+  l050 = new MovingLayer('#layer050', '-400%', '-500%', 0, 6),
   l100 = new MovingLayer('#layer100', '-200%', '-20%', 410, 9);
   l200 = new MovingLayer('#layer200', '100%', '30%', 360, 9);
   l500 = new MovingLayer('#layer500', '280%', '-80%', 304, 9);
 
 
-
 $(window).on('load', function () {
+  windowWidth = $(window).width();
+  windowHeight = $(window).height();
   // preload animation images
   TweenLite.delayedCall(0.1, function () { // start delay
     // activate animation on the animatedSun elements
@@ -34,11 +37,33 @@ $(window).on('load', function () {
 		$("#jellyfish").css({'visibility': 'visible'});
 		$("#jellyfish").load("jellyfish.html");
 	});
+  $("#layer200").click(function () {
+		$("#parahelion").css({'visibility': 'visible'});
+		$("#parahelion").load("parahelion.html");
+	});
+	$("#layer500").click(function () {
+		$("#contact").css({'visibility': 'visible'});
+		$("#contact").load("contact.html");
+	});
 	// doLayout('ready');
 	// fly();
 });
 
 // universal functions
+
+$(document).ready(function() {
+  $(window).resize(function() {
+    windowWidth = $(window).width();
+    windowHeight = $(window).height();
+    // var bodyheight = $(this).height();
+    $("#wrapper").width("100%");
+    $("#wrapper").height("100%");
+    $("#layer000").width("150%");
+    $("#layer000").height("150%");
+    $("#layer000").css({top: '-25%', left: '-25%'});
+  }).resize();
+});
+
 $('#wrapper').mouseenter(function(){
   mouseIsHovering = true;
 }).mouseleave(function(){
@@ -50,9 +75,11 @@ $("#wrapper").mousemove(function(event) {
   yMousePos = event.pageY;
 });
 
-$(window).resize(function() {
-  updateImageSize();
-});
+function updateBgImage() {
+  $("#wrapper").each(function() {
+    $div.css({"width": "100%", "height": "100%"});
+  });
+}
 
 
 // constructor function: layers

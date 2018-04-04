@@ -1,0 +1,36 @@
+<div id="contact-inner" class="clear">
+	<a href="#"><img id="close3" src="images/close.png" /></a><br />
+	<div class="email-main">
+		<div class="form-holder">
+			<h5 class="white contact-label">
+				Name <span class="text-color" id="name-error"></span>
+			</h5>
+			<div class="input-underline border-color">
+				<input id="name" class="input-offset" type="text" />
+			</div>
+			<h5 class="white contact-label">
+				eMail <span class="text-color" id="email-error"></span>
+			</h5>
+			<div class="input-underline border-color">
+				<input id="email" class="input-offset" type="text" />
+			</div>
+			<h5 class="white contact-label">
+				Comments <span class="text-color" id="comments-error"></span>
+			</h5>
+			<div class="textarea-underline border-color">
+				<textarea id="comments" class="textarea-offset" cols="" rows=""></textarea>
+			</div>		
+		</div>
+		<div class="pad-top-button">
+			<button id="send-btn" class="button-color">
+				Send
+			</button>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript"> 
+	$("#close3").click(function () {
+		$("#contact").css({'visibility': 'hidden'});
+	});
+</script>
