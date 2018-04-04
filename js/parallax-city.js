@@ -122,7 +122,7 @@ function MovingLayer(layerId, left, top, width, depth) {
       if(layerRight <= windowWidth) {return false;} else {return true;}
     }
     if(edge == 'top') {
-      if(layerTop >= 0) {return false;} else {return true;}
+      if(layerTop >= -2) {return false;} else {return true;}
     }
     if(edge == 'bottom') {
       if(layerBottom <= windowHeight) {return false;} else {return true;}
