@@ -12,11 +12,15 @@ var
   windowHeight = $(window).height(),
   moveLeftIsOk = 1, moveRightIsOk = 1,
   moveUpIsOk = 1, moveDownIsOk = 1,
-  l000 = new MovingLayer('#layer000', '-25%', '-25%', 0, 0.35),
-  l007 = new MovingLayer('#layer007', '-10%', '-10%', 1789, 2.5),
-  l010 = new MovingLayer('#layer010', '-15%', '-15%', 2068, 5),
-  l050 = new MovingLayer('#layer050', '-100%', '-150%', 6437, 6),
-  l100 = new MovingLayer('#layer100', '-20%', '-20%', 410, 9);
+  // depth value is for parallax; higher values appear closer to viewer
+  // arguments: layername, transX, transY, width ('0' to use css depth)
+  l000 = new MovingLayer('#layer000', '-25%', '-25%', 0, 0.7),
+  l010 = new MovingLayer('#layer010', '-15%', '-15%', 2068, 2.5),
+  l020 = new MovingLayer('#layer020', '-10%', '-10%', 1789, 5),
+  l050 = new MovingLayer('#layer050', '-500%', '-500%', 0, 6),
+  l100 = new MovingLayer('#layer100', '-200%', '-20%', 410, 9);
+  l200 = new MovingLayer('#layer200', '100%', '30%', 360, 9);
+  l500 = new MovingLayer('#layer500', '280%', '-80%', 304, 9);
 
 
 // preload animation images
@@ -131,8 +135,8 @@ function MovingLayer(layerId, left, top, width, depth) {
 
       // set speed based on mouse position
       // power of 2.7 builds speed quickly
-      steerXspeed = Math.pow((Math.abs(steerXdir) / (viewCentX)) * 2, 2.5) * steerXpositive;
-      steerYspeed = Math.pow((Math.abs(steerYdir) / (viewCentY)) * 2, 2.5) * steerYpositive;
+      steerXspeed = Math.pow((Math.abs(steerXdir) / viewCentX) * 2, 2.5) * steerXpositive;
+      steerYspeed = Math.pow((Math.abs(steerYdir) / viewCentY) * 2, 2.5) * steerYpositive;
 
       // stop movement when increment is small
       // choke top speed for mouse positions closer to viewport center
@@ -199,36 +203,27 @@ MovingLayer.prototype.layerSetup = function () {
   });
 };
 
-// images
-// layer000 | jgg-photo  | main bg        | 2879x2400
-// animated sun (z-index: 5)
-// layer007 | bldgs-03   | light blue     | 1789x1174
-// layer010 | bldgs-bg   | dark gray      | 2068 × 1456
-// layer050 | clouds-a   | main clouds    | 6437 × 3482
-// layer100 | bldg01     | top and bottom | 410 x 1600
 
-// instantiate layers (and set properties, like position)
-// depth value is for parallax; higher values are closer to viewer
-// arguments: layername, transX, transY, width ('0' to use css) depth
-
-// TODO: instead of fix %s for top and left below, calculate % based on
-//   size of viewport and size of image
-
+// instantiate layers
 l000.layerSetup();
-l007.layerSetup();
 l010.layerSetup();
+l020.layerSetup();
 l050.layerSetup();
 l100.layerSetup();
+l200.layerSetup();
+l500.layerSetup();
 
 
 // main loop: move them
 var t = 0;
 setInterval(function () {
   l000.layerMove();
-  l007.layerMove();
   l010.layerMove();
+  l020.layerMove();
   l050.layerMove();
   l100.layerMove();
+  l200.layerMove();
+  l500.layerMove();
   ++t;
 }, 1000 / 30);
 

@@ -64,26 +64,28 @@ body{
 	background-image:url(../images/jgg-photo.png);
 	background-size: 100%;
 }
-#layer007 {
-	z-index:7;
-	width:1789px; height:1174px;
-	left:0;
-	top:0;
-	background-image:url(../images/bldgs-03.png);
-}
 #layer010 {
 	z-index:10;
 	width:2068px; height:1456px;
 	left:0;
 	top:0;
-	background-image:url(../images/bldgs-bg.png);
+	background-image:url(../images/bldgs-bgc.png);
+}
+#layer020 {
+	z-index:20;
+	width:1789px; height:1174px;
+	left:0;
+	top:0;
+	background-image:url(../images/bldgs-03.png);
 }
 #layer050 {
 	z-index:50;
-	width:6437px; height:3482px;
+	/* width:6437px; height:3482px; */
+  width:12000px; height:6000px;
 	left:0;
 	top:0;
-	background-image:url(../images/clouds-a.png);
+	/* background-image:url(../images/clouds-a.png); */
+	background-image:url(../images/clouds-a2-4000w-tiny.png);
 	background-size:cover;
 	background-repeat:no-repeat;
 }
@@ -92,25 +94,23 @@ body{
 	width:410px; height:1600px;
 	left:0;
 	top:0;
-	/* background-image:url(../images/bldg01/bldg-01-bg.png); */
-	/* opacity:0; */
 	transition: opacity 1s;
 }
 #layer200 {
 	z-index:200;
-	width:304px; height:612px;
+	width:360px; height:1064px;
 	left:0;
 	top:0;
-	background-image:url(../images/bldg05/bldg-fg-05.png);
-	opacity:0;
 	transition: opacity 1s;
 }
-#layer201 {
-	z-index:201;
-	width:304px; height:612px;
+#layer500 {
+	z-index:500;
+	width:360px; height:1064px;
 	left:0;
 	top:0;
+	transition: opacity 1s;
 }
+
 #me {
 	z-index: 10000;
   position: absolute;
